@@ -82,7 +82,7 @@ class CustomThemes {
     brightness: Brightness.light,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     inputDecorationTheme: const InputDecorationTheme(
-        hintStyle: TextStyle(fontSize: 8.5),
+        hintStyle: TextStyle(fontSize: 8.5, color: Color(0xFF6C6C6C)),
         border: OutlineInputBorder(),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent, width: 0.0),

@@ -213,39 +213,44 @@ class _RomsPageState extends State<RomsPage> {
                       pinned: _customTheme.isBarPinned(_romsFilter!.length,
                           _widthScreen!, _searchNode.hasFocus),
                       forceElevated: true,
-                      title: SizedBox(
-                        height: 40,
-                        child: TextField(
-                          autocorrect: false,
-                          enableSuggestions: false,
-                          focusNode: _searchNode,
-                          key: _searchKey,
-                          controller: _searchController,
-                          onChanged: _onItemChanged,
-                          decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(0),
-                              filled: true,
-                              prefixIcon: const Icon(Icons.search),
-                              suffixIcon: _searchController.text.isNotEmpty
-                                  ? Material(
-                                      shape: const CircleBorder(),
-                                      child: IconButton(
-                                        tooltip: "clearTooltip".i18n(),
-                                        splashRadius: 16.0,
-                                        padding:
-                                            const EdgeInsets.only(bottom: 0.0),
-                                        onPressed: () {
-                                          setState(() {
-                                            _searchController.clear();
-                                            _onItemChanged(
-                                                _searchController.text);
-                                          });
-                                        },
-                                        icon: const Icon(Icons.clear),
-                                      ))
-                                  : null,
-                              hintText: "searchHint".i18n()),
-                        ),
+                      title: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(3.0)),
+                        color: Colors.transparent,
+                        elevation: 1.0,
+                        child: SizedBox(
+                            height: 40,
+                            child: TextField(
+                              autocorrect: false,
+                              enableSuggestions: false,
+                              focusNode: _searchNode,
+                              key: _searchKey,
+                              controller: _searchController,
+                              onChanged: _onItemChanged,
+                              decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.all(0),
+                                  filled: true,
+                                  prefixIcon: const Icon(Icons.search),
+                                  suffixIcon: _searchController.text.isNotEmpty
+                                      ? Material(
+                                          shape: const CircleBorder(),
+                                          child: IconButton(
+                                            tooltip: "clearTooltip".i18n(),
+                                            splashRadius: 16.0,
+                                            padding: const EdgeInsets.only(
+                                                bottom: 0.0),
+                                            onPressed: () {
+                                              setState(() {
+                                                _searchController.clear();
+                                                _onItemChanged(
+                                                    _searchController.text);
+                                              });
+                                            },
+                                            icon: const Icon(Icons.clear),
+                                          ))
+                                      : null,
+                                  hintText: "searchHint".i18n()),
+                            )),
                       )),
                 ];
               },
@@ -445,7 +450,7 @@ class _RomsPageState extends State<RomsPage> {
                                                         ),
                                                       ),
                                                       child: Material(
-                                                        elevation: 6.0,
+                                                        elevation: 1.0,
                                                         borderRadius:
                                                             const BorderRadius
                                                                     .all(

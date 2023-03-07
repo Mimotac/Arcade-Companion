@@ -15,12 +15,15 @@ class DeletePage extends StatefulWidget {
 class _DeletePageState extends State<DeletePage> {
   int _itemCount = 0;
   num? _widthScreen = 0;
+
   List<String>? _deleteRomsList = [];
   List<String>? _deleteRomsFilter = [];
+
   bool _isExtendApp = true;
   bool _isFetching = false;
   bool _isFetchingMore = false;
   bool _isDone = false;
+
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final GlobalKey<FormState> _searchKey = GlobalKey<FormState>();
@@ -162,7 +165,7 @@ class _DeletePageState extends State<DeletePage> {
           floatingActionButton: Material(
               color: Colors.transparent,
               borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-              elevation: 6.0,
+              elevation: 1.0,
               child: Ink(
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(6.0)),
@@ -200,7 +203,7 @@ class _DeletePageState extends State<DeletePage> {
                                     color: Colors.transparent,
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(3.0)),
-                                    elevation: 6.0,
+                                    elevation: 1.0,
                                     child: Ink(
                                         padding: const EdgeInsets.all(0),
                                         decoration: const BoxDecoration(
@@ -253,7 +256,7 @@ class _DeletePageState extends State<DeletePage> {
                                             }
                                           },
                                           child: Padding(
-                                              padding: const EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(13),
                                               child: Text(
                                                 "confirmButton".i18n(),
                                                 style: const TextStyle(
@@ -317,7 +320,7 @@ class _DeletePageState extends State<DeletePage> {
                     ],
                     leading: IconButton(
                         tooltip: "backTooltip".i18n(),
-                        splashRadius: 16.0,
+                        splashRadius: 22.0,
                         icon: const Icon(Icons.arrow_back),
                         onPressed: () {
                           ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -330,33 +333,38 @@ class _DeletePageState extends State<DeletePage> {
                     pinned: _customTheme.isBarPinned(_deleteRomsFilter!.length,
                         _widthScreen!, _searchNode.hasFocus),
                     forceElevated: true,
-                    title: SizedBox(
-                        height: 40,
-                        child: TextField(
-                          autocorrect: false,
-                          enableSuggestions: false,
-                          key: _searchKey,
-                          controller: _searchController,
-                          onChanged: _onItemChanged,
-                          decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(0),
-                              filled: true,
-                              prefixIcon: const Icon(Icons.search),
-                              suffixIcon: !(_searchController.text == "")
-                                  ? IconButton(
-                                      splashRadius: 16.0,
-                                      onPressed: () {
-                                        setState(() {
-                                          _searchController.clear();
-                                          _onItemChanged(
-                                              _searchController.text);
-                                        });
-                                      },
-                                      icon: const Icon(Icons.clear),
-                                    )
-                                  : null,
-                              hintText: "searchHint".i18n()),
-                        )),
+                    title: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(3.0)),
+                        color: Colors.transparent,
+                        elevation: 1.0,
+                        child: SizedBox(
+                            height: 40,
+                            child: TextField(
+                              autocorrect: false,
+                              enableSuggestions: false,
+                              key: _searchKey,
+                              controller: _searchController,
+                              onChanged: _onItemChanged,
+                              decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.all(0),
+                                  filled: true,
+                                  prefixIcon: const Icon(Icons.search),
+                                  suffixIcon: !(_searchController.text == "")
+                                      ? IconButton(
+                                          splashRadius: 22.0,
+                                          onPressed: () {
+                                            setState(() {
+                                              _searchController.clear();
+                                              _onItemChanged(
+                                                  _searchController.text);
+                                            });
+                                          },
+                                          icon: const Icon(Icons.clear),
+                                        )
+                                      : null,
+                                  hintText: "searchHint".i18n()),
+                            ))),
                   ),
                 ];
               },
@@ -586,7 +594,7 @@ class _DeletePageState extends State<DeletePage> {
                                                         const BorderRadius.all(
                                                             Radius.circular(
                                                                 3.0)),
-                                                    elevation: 6.0,
+                                                    elevation: 1.0,
                                                     child: ListTile(
                                                       horizontalTitleGap: 10,
                                                       dense: true,

@@ -204,38 +204,45 @@ class _MainPageState extends State<MainPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 15, right: 15, top: 15),
-                                  child: SizedBox(
-                                      height: 40,
-                                      child: DropdownButtonFormField<String>(
-                                          borderRadius:
-                                              BorderRadius.circular(6.0),
-                                          focusNode: _sysNode,
-                                          iconSize: 36,
-                                          decoration: InputDecoration(
-                                              filled: true,
-                                              prefixIcon: Icon(
-                                                _systIconChoice(),
-                                                color: _ipPrefixIconColor(),
-                                              ),
-                                              contentPadding:
-                                                  const EdgeInsets.all(0)),
-                                          value: _softChoice,
-                                          items: [
-                                            "Batocera",
-                                            "Recalbox",
-                                            "Retropie"
-                                          ]
-                                              .map((label) => DropdownMenuItem(
-                                                    value: label,
-                                                    child: Text(label),
-                                                  ))
-                                              .toList(),
-                                          onChanged: (value) {
-                                            _sysNode.requestFocus();
-                                            setState(() {
-                                              _softChoice = value;
-                                            });
-                                          })),
+                                  child: Material(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(3.0)),
+                                      color: Colors.transparent,
+                                      elevation: 1.0,
+                                      child: SizedBox(
+                                          height: 40,
+                                          child: DropdownButtonFormField<
+                                                  String>(
+                                              borderRadius:
+                                                  BorderRadius.circular(6.0),
+                                              focusNode: _sysNode,
+                                              iconSize: 36,
+                                              decoration: InputDecoration(
+                                                  filled: true,
+                                                  prefixIcon: Icon(
+                                                    _systIconChoice(),
+                                                    color: _ipPrefixIconColor(),
+                                                  ),
+                                                  contentPadding:
+                                                      const EdgeInsets.all(0)),
+                                              value: _softChoice,
+                                              items: [
+                                                "Batocera",
+                                                "Recalbox",
+                                                "Retropie"
+                                              ]
+                                                  .map((label) =>
+                                                      DropdownMenuItem(
+                                                        value: label,
+                                                        child: Text(label),
+                                                      ))
+                                                  .toList(),
+                                              onChanged: (value) {
+                                                _sysNode.requestFocus();
+                                                setState(() {
+                                                  _softChoice = value;
+                                                });
+                                              }))),
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.only(
@@ -246,183 +253,227 @@ class _MainPageState extends State<MainPage> {
                                           children: [
                                             Flexible(
                                                 flex: 2,
-                                                child: TextFormField(
-                                                  onChanged: (value) {
-                                                    if (_ipController
-                                                        .text.isNotEmpty) {
-                                                      setState(() {
-                                                        _isIpValide = true;
-                                                      });
-                                                    }
-                                                  },
-                                                  onFieldSubmitted: (value) {
-                                                    _fieldFocusChange(context,
-                                                        _ipNode, _portNode);
-                                                  },
-                                                  textInputAction:
-                                                      TextInputAction.next,
-                                                  autocorrect: false,
-                                                  enableSuggestions: false,
-                                                  focusNode: _ipNode,
-                                                  controller: _ipController,
-                                                  decoration: InputDecoration(
-                                                      contentPadding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      hintText: '192.168.1.12',
-                                                      filled: true,
-                                                      prefixIcon: Icon(
-                                                        color: _isIpValide ==
-                                                                    false &&
-                                                                _ipController
-                                                                    .text
-                                                                    .isEmpty
-                                                            ? Colors.red
-                                                            : null,
-                                                        CustomIcons.ip,
-                                                      )),
-                                                )),
+                                                child: Material(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                3.0)),
+                                                    color: Colors.transparent,
+                                                    elevation: 1.0,
+                                                    child: TextFormField(
+                                                      onChanged: (value) {
+                                                        if (_ipController
+                                                            .text.isNotEmpty) {
+                                                          setState(() {
+                                                            _isIpValide = true;
+                                                          });
+                                                        }
+                                                      },
+                                                      onFieldSubmitted:
+                                                          (value) {
+                                                        _fieldFocusChange(
+                                                            context,
+                                                            _ipNode,
+                                                            _portNode);
+                                                      },
+                                                      textInputAction:
+                                                          TextInputAction.next,
+                                                      autocorrect: false,
+                                                      enableSuggestions: false,
+                                                      focusNode: _ipNode,
+                                                      controller: _ipController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                              contentPadding:
+                                                                  const EdgeInsets
+                                                                      .all(0),
+                                                              hintText:
+                                                                  '192.168.1.12',
+                                                              filled: true,
+                                                              prefixIcon: Icon(
+                                                                color: _isIpValide ==
+                                                                            false &&
+                                                                        _ipController
+                                                                            .text
+                                                                            .isEmpty
+                                                                    ? Colors.red
+                                                                    : null,
+                                                                CustomIcons.ip,
+                                                              )),
+                                                    ))),
                                             const SizedBox(
                                               width: 10,
                                             ),
                                             Flexible(
                                                 flex: 1,
-                                                child: TextFormField(
-                                                  onChanged: (value) {
-                                                    if (_portController
-                                                        .text.isNotEmpty) {
-                                                      setState(() {
-                                                        _isPortValide = true;
-                                                      });
-                                                    }
-                                                  },
-                                                  onFieldSubmitted: (value) {
-                                                    _fieldFocusChange(context,
-                                                        _portNode, _userNode);
-                                                  },
-                                                  textInputAction:
-                                                      TextInputAction.next,
-                                                  focusNode: _portNode,
-                                                  controller: _portController,
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                      contentPadding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      hintText: '80',
-                                                      filled: true,
-                                                      prefixIcon: Icon(
-                                                        color: _isPortValide ==
-                                                                    false &&
-                                                                _portController
-                                                                    .text
-                                                                    .isEmpty
-                                                            ? Colors.red
-                                                            : null,
-                                                        CustomIcons.port,
-                                                      )),
-                                                )),
+                                                child: Material(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                3.0)),
+                                                    color: Colors.transparent,
+                                                    elevation: 1.0,
+                                                    child: TextFormField(
+                                                      onChanged: (value) {
+                                                        if (_portController
+                                                            .text.isNotEmpty) {
+                                                          setState(() {
+                                                            _isPortValide =
+                                                                true;
+                                                          });
+                                                        }
+                                                      },
+                                                      onFieldSubmitted:
+                                                          (value) {
+                                                        _fieldFocusChange(
+                                                            context,
+                                                            _portNode,
+                                                            _userNode);
+                                                      },
+                                                      textInputAction:
+                                                          TextInputAction.next,
+                                                      focusNode: _portNode,
+                                                      controller:
+                                                          _portController,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      decoration:
+                                                          InputDecoration(
+                                                              contentPadding:
+                                                                  const EdgeInsets
+                                                                      .all(0),
+                                                              hintText: '80',
+                                                              filled: true,
+                                                              prefixIcon: Icon(
+                                                                color: _isPortValide ==
+                                                                            false &&
+                                                                        _portController
+                                                                            .text
+                                                                            .isEmpty
+                                                                    ? Colors.red
+                                                                    : null,
+                                                                CustomIcons
+                                                                    .port,
+                                                              )),
+                                                    ))),
                                           ],
                                         ))),
                                 Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15, right: 15, top: 10),
-                                    child: SizedBox(
-                                        height: 40,
-                                        child: TextFormField(
-                                          onChanged: (value) {
-                                            if (_userController
-                                                .text.isNotEmpty) {
-                                              setState(() {
-                                                _isUserValide = true;
-                                              });
-                                            }
-                                          },
-                                          onFieldSubmitted: (value) {
-                                            _fieldFocusChange(
-                                                context, _userNode, _pswdNode);
-                                          },
-                                          textInputAction: TextInputAction.next,
-                                          autocorrect: false,
-                                          enableSuggestions: false,
-                                          focusNode: _userNode,
-                                          controller: _userController,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.all(0),
-                                              hintText: 'root',
-                                              filled: true,
-                                              prefixIcon: Icon(
-                                                color: _isUserValide == false &&
-                                                        _userController
-                                                            .text.isEmpty
-                                                    ? Colors.red
-                                                    : null,
-                                                Icons.person,
-                                              )),
-                                        ))),
+                                    child: Material(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(3.0)),
+                                        color: Colors.transparent,
+                                        elevation: 1.0,
+                                        child: SizedBox(
+                                            height: 40,
+                                            child: TextFormField(
+                                              onChanged: (value) {
+                                                if (_userController
+                                                    .text.isNotEmpty) {
+                                                  setState(() {
+                                                    _isUserValide = true;
+                                                  });
+                                                }
+                                              },
+                                              onFieldSubmitted: (value) {
+                                                _fieldFocusChange(context,
+                                                    _userNode, _pswdNode);
+                                              },
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                              autocorrect: false,
+                                              enableSuggestions: false,
+                                              focusNode: _userNode,
+                                              controller: _userController,
+                                              decoration: InputDecoration(
+                                                  contentPadding:
+                                                      const EdgeInsets.all(0),
+                                                  hintText: 'root',
+                                                  filled: true,
+                                                  prefixIcon: Icon(
+                                                    color: _isUserValide ==
+                                                                false &&
+                                                            _userController
+                                                                .text.isEmpty
+                                                        ? Colors.red
+                                                        : null,
+                                                    Icons.person,
+                                                  )),
+                                            )))),
                                 Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15,
                                         right: 15,
                                         top: 10,
                                         bottom: 30),
-                                    child: SizedBox(
-                                        height: 40,
-                                        child: TextFormField(
-                                          onChanged: (value) {
-                                            if (_pswdController
-                                                .text.isNotEmpty) {
-                                              setState(() {
-                                                _isPswdValide = true;
-                                              });
-                                            }
-                                          },
-                                          onFieldSubmitted: (value) {
-                                            _pswdNode.unfocus();
-                                          },
-                                          textInputAction: TextInputAction.done,
-                                          focusNode: _pswdNode,
-                                          controller: _pswdController,
-                                          obscureText: _isHidden,
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.all(0),
-                                            hintText: '••••••••••',
-                                            filled: true,
-                                            prefixIcon: Icon(
-                                              color: _isPswdValide == false &&
-                                                      _pswdController
-                                                          .text.isEmpty
-                                                  ? Colors.red
-                                                  : null,
-                                              Icons.lock,
-                                            ),
-                                            suffixIcon: Material(
-                                                shape: const CircleBorder(),
-                                                child: IconButton(
-                                                  tooltip: _isHidden == false
-                                                      ? "showTooltip".i18n()
-                                                      : "hideTooltip".i18n(),
-                                                  splashRadius: 16.0,
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      _isHidden = !_isHidden;
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    _isHidden
-                                                        ? Icons.visibility
-                                                        : Icons.visibility_off,
-                                                  ),
-                                                )),
-                                          ),
-                                        ))),
+                                    child: Material(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(3.0)),
+                                        color: Colors.transparent,
+                                        elevation: 1.0,
+                                        child: SizedBox(
+                                            height: 40,
+                                            child: TextFormField(
+                                              onChanged: (value) {
+                                                if (_pswdController
+                                                    .text.isNotEmpty) {
+                                                  setState(() {
+                                                    _isPswdValide = true;
+                                                  });
+                                                }
+                                              },
+                                              onFieldSubmitted: (value) {
+                                                _pswdNode.unfocus();
+                                              },
+                                              textInputAction:
+                                                  TextInputAction.done,
+                                              focusNode: _pswdNode,
+                                              controller: _pswdController,
+                                              obscureText: _isHidden,
+                                              decoration: InputDecoration(
+                                                contentPadding:
+                                                    const EdgeInsets.all(0),
+                                                hintText: '••••••••••',
+                                                filled: true,
+                                                prefixIcon: Icon(
+                                                  color:
+                                                      _isPswdValide == false &&
+                                                              _pswdController
+                                                                  .text.isEmpty
+                                                          ? Colors.red
+                                                          : null,
+                                                  Icons.lock,
+                                                ),
+                                                suffixIcon: Material(
+                                                    shape: const CircleBorder(),
+                                                    child: IconButton(
+                                                      tooltip: _isHidden ==
+                                                              false
+                                                          ? "showTooltip".i18n()
+                                                          : "hideTooltip"
+                                                              .i18n(),
+                                                      splashRadius: 16.0,
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          _isHidden =
+                                                              !_isHidden;
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        _isHidden
+                                                            ? Icons.visibility
+                                                            : Icons
+                                                                .visibility_off,
+                                                      ),
+                                                    )),
+                                              ),
+                                            )))),
                               ])),
                         ),
                         Positioned(
-                          bottom: 7,
+                          bottom: 5,
                           right: 0,
                           left: 0,
                           child: Center(
@@ -430,7 +481,7 @@ class _MainPageState extends State<MainPage> {
                                   color: Colors.transparent,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(3.0)),
-                                  elevation: 6.0,
+                                  elevation: 1.0,
                                   child: SizedBox(
                                       width: MediaQuery.of(context).size.width /
                                           1.5,

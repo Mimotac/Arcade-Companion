@@ -126,13 +126,6 @@ class _SystemsPageState extends State<SystemsPage> {
     }
   }
 
-  bool _favListSize() {
-    if (_favSystemsList!.length > 3) {
-      return true;
-    }
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -185,43 +178,49 @@ class _SystemsPageState extends State<SystemsPage> {
                     pinned: _customTheme.isBarPinned(_systemsFilter!.length,
                         _widthScreen!, _searchNode.hasFocus),
                     forceElevated: true,
-                    title: SizedBox(
-                        height: 40,
-                        child: TextField(
-                          autocorrect: false,
-                          enableSuggestions: false,
-                          focusNode: _searchNode,
-                          key: _searchKey,
-                          controller: _searchController,
-                          onChanged: _applyFilter,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.all(0),
-                            filled: true,
-                            prefixIcon: const Icon(
-                              Icons.search,
-                            ),
-                            suffixIcon: _searchController.text.isNotEmpty
-                                ? Material(
-                                    shape: const CircleBorder(),
-                                    child: IconButton(
-                                      tooltip: "clearTooltip".i18n(),
-                                      splashRadius: 16.0,
-                                      padding:
-                                          const EdgeInsets.only(bottom: 0.0),
-                                      onPressed: () {
-                                        _searchController.clear();
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
-                                        _applyFilter(_searchController.text);
-                                      },
-                                      icon: const Icon(
-                                        Icons.clear,
-                                      ),
-                                    ))
-                                : null,
-                            hintText: "searchHint".i18n(),
-                          ),
-                        )),
+                    title: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(3.0)),
+                        color: Colors.transparent,
+                        elevation: 1.0,
+                        child: SizedBox(
+                            height: 40,
+                            child: TextField(
+                              autocorrect: false,
+                              enableSuggestions: false,
+                              focusNode: _searchNode,
+                              key: _searchKey,
+                              controller: _searchController,
+                              onChanged: _applyFilter,
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(0),
+                                filled: true,
+                                prefixIcon: const Icon(
+                                  Icons.search,
+                                ),
+                                suffixIcon: _searchController.text.isNotEmpty
+                                    ? Material(
+                                        shape: const CircleBorder(),
+                                        child: IconButton(
+                                          tooltip: "clearTooltip".i18n(),
+                                          splashRadius: 16.0,
+                                          padding: const EdgeInsets.only(
+                                              bottom: 0.0),
+                                          onPressed: () {
+                                            _searchController.clear();
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                            _applyFilter(
+                                                _searchController.text);
+                                          },
+                                          icon: const Icon(
+                                            Icons.clear,
+                                          ),
+                                        ))
+                                    : null,
+                                hintText: "searchHint".i18n(),
+                              ),
+                            ))),
                   )
                 ];
               },
@@ -259,19 +258,14 @@ class _SystemsPageState extends State<SystemsPage> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10.0),
                                     child: SizedBox(
-                                        height: _favListSize()
-                                            ? _objectSize.height * 2
-                                            : _objectSize.height,
+                                        height: _objectSize.height,
                                         child: GridView.count(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10.0),
                                           physics:
                                               const BouncingScrollPhysics(),
-                                          crossAxisCount:
-                                              _favListSize() ? 2 : 1,
+                                          crossAxisCount: 1,
                                           mainAxisSpacing: 5,
-                                          crossAxisSpacing:
-                                              _favListSize() ? 5 : 0,
                                           scrollDirection: Axis.horizontal,
                                           shrinkWrap: true,
                                           children: _favSystemsFilter!.map((f) {
@@ -279,7 +273,7 @@ class _SystemsPageState extends State<SystemsPage> {
                                               borderRadius:
                                                   const BorderRadius.all(
                                                       Radius.circular(3.0)),
-                                              elevation: 6.0,
+                                              elevation: 1.0,
                                               child: AbsorbPointer(
                                                   absorbing: !_isLoading,
                                                   child: InkWell(
@@ -462,7 +456,7 @@ class _SystemsPageState extends State<SystemsPage> {
                                             borderRadius:
                                                 const BorderRadius.all(
                                                     Radius.circular(3.0)),
-                                            elevation: 6.0,
+                                            elevation: 1.0,
                                             child: AbsorbPointer(
                                                 absorbing: !_isLoading,
                                                 child: InkWell(
