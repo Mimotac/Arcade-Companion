@@ -1,6 +1,6 @@
 # ROMs Manager
 
-An easy way to manage the removal of your ROMs if you are using Batocera, Recalbox or Retropie (SFTP requests).
+An easy way to manage the removal of your ROMs if you are using Batocera, Lakka, Recalbox or Retropie (SFTP requests).
 
 ## Screenshots
 <p align="center">
