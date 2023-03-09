@@ -503,15 +503,22 @@ class _RomsPageState extends State<RomsPage> {
                                                             child: Center(
                                                                 child: Text(
                                                               _romsFilter![
-                                                                      index]
-                                                                  .substring(
-                                                                      (_romsFilter![index].lastIndexOf(
-                                                                              ".") +
-                                                                          1),
-                                                                      _romsFilter![
+                                                                          index]
+                                                                      .contains(
+                                                                          ".")
+                                                                  ? _romsFilter![
                                                                               index]
-                                                                          .length)
-                                                                  .toUpperCase(),
+                                                                          .contains(
+                                                                              "libretro")
+                                                                      ? "lib"
+                                                                          .toUpperCase()
+                                                                      : _romsFilter![
+                                                                              index]
+                                                                          .substring(
+                                                                              (_romsFilter![index].lastIndexOf(".") + 1),
+                                                                              _romsFilter![index].length)
+                                                                          .toUpperCase()
+                                                                  : "",
                                                               maxLines: 1,
                                                               style: const TextStyle(
                                                                   overflow:
@@ -526,12 +533,16 @@ class _RomsPageState extends State<RomsPage> {
                                                           ),
                                                           title: Text(
                                                             _romsFilter![index]
-                                                                .substring(
+                                                                    .contains(
+                                                                        ".")
+                                                                ? _romsFilter![index].substring(
                                                                     0,
                                                                     _romsFilter![
                                                                             index]
                                                                         .lastIndexOf(
-                                                                            ".")),
+                                                                            "."))
+                                                                : _romsFilter![
+                                                                    index],
                                                             maxLines: 3,
                                                             style: const TextStyle(
                                                                 overflow:

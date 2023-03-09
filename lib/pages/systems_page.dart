@@ -119,8 +119,10 @@ class _SystemsPageState extends State<SystemsPage> {
         return _customTheme.isDarkTheme(context)
             ? "assets/recalbox_dark.png"
             : "assets/recalbox_light.png";
-      case "Retropie":
+      case "RetroPie":
         return "assets/retropie.png";
+      case "Lakka":
+        return "assets/lakka.png";
       default:
         return "assets/recalbox_light.png";
     }
@@ -313,7 +315,14 @@ class _SystemsPageState extends State<SystemsPage> {
                                                             Expanded(
                                                                 child: Icon(
                                                               CustomIcons
-                                                                  .imageMap[f]!,
+                                                                      .imageMap
+                                                                      .containsKey(
+                                                                          f)
+                                                                  ? CustomIcons
+                                                                          .imageMap[
+                                                                      f]!
+                                                                  : CustomIcons
+                                                                      .misc,
                                                               color: _customTheme
                                                                       .isDarkTheme(
                                                                           context)
@@ -494,8 +503,14 @@ class _SystemsPageState extends State<SystemsPage> {
                                                         children: <Widget>[
                                                           Expanded(
                                                               child: Icon(
-                                                            CustomIcons
-                                                                .imageMap[f]!,
+                                                            CustomIcons.imageMap
+                                                                    .containsKey(
+                                                                        f)
+                                                                ? CustomIcons
+                                                                        .imageMap[
+                                                                    f]!
+                                                                : CustomIcons
+                                                                    .misc,
                                                             color: _customTheme
                                                                     .isDarkTheme(
                                                                         context)

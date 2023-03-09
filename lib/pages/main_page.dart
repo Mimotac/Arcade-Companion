@@ -106,8 +106,10 @@ class _MainPageState extends State<MainPage> {
         return CustomIcons.batocera;
       case "Recalbox":
         return CustomIcons.recalbox;
-      case "Retropie":
+      case "RetroPie":
         return CustomIcons.retropie;
+      case "Lakka":
+        return CustomIcons.lakka;
       default:
         return CustomIcons.recalbox;
     }
@@ -228,8 +230,9 @@ class _MainPageState extends State<MainPage> {
                                               value: _softChoice,
                                               items: [
                                                 "Batocera",
+                                                "Lakka",
                                                 "Recalbox",
-                                                "Retropie"
+                                                "RetroPie"
                                               ]
                                                   .map((label) =>
                                                       DropdownMenuItem(

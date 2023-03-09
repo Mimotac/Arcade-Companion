@@ -643,15 +643,23 @@ class _DeletePageState extends State<DeletePage> {
                                                         child: Center(
                                                           child: Text(
                                                             _deleteRomsFilter![
-                                                                    index]
-                                                                .substring(
-                                                                    (_deleteRomsFilter![index].lastIndexOf(
-                                                                            ".") +
-                                                                        1),
-                                                                    _deleteRomsFilter![
+                                                                        index]
+                                                                    .contains(
+                                                                        ".")
+                                                                ? _deleteRomsFilter![
                                                                             index]
-                                                                        .length)
-                                                                .toUpperCase(),
+                                                                        .contains(
+                                                                            "libretro")
+                                                                    ? "lib"
+                                                                        .toUpperCase()
+                                                                    : _deleteRomsFilter![
+                                                                            index]
+                                                                        .substring(
+                                                                            (_deleteRomsFilter![index].lastIndexOf(".") +
+                                                                                1),
+                                                                            _deleteRomsFilter![index].length)
+                                                                        .toUpperCase()
+                                                                : "",
                                                             maxLines: 1,
                                                             style: const TextStyle(
                                                                 overflow:
@@ -667,13 +675,18 @@ class _DeletePageState extends State<DeletePage> {
                                                       ),
                                                       title: Text(
                                                         _deleteRomsFilter![
-                                                                index]
-                                                            .substring(
-                                                                0,
-                                                                _deleteRomsFilter![
-                                                                        index]
-                                                                    .lastIndexOf(
-                                                                        ".")),
+                                                                    index]
+                                                                .contains(".")
+                                                            ? _deleteRomsFilter![
+                                                                    index]
+                                                                .substring(
+                                                                    0,
+                                                                    _deleteRomsFilter![
+                                                                            index]
+                                                                        .lastIndexOf(
+                                                                            "."))
+                                                            : _deleteRomsFilter![
+                                                                index],
                                                         maxLines: 3,
                                                         style: const TextStyle(
                                                             overflow:

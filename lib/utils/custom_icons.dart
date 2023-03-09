@@ -16,6 +16,7 @@ class CustomIcons {
   static const String _homeLabel = 'Home';
   static const String _portableLabel = 'Portable';
   static const String _computerLabel = 'Computer';
+  static const String _lakkaLabel = 'Lakka';
 
   static const IconData ip =
       IconData(0xe800, fontFamily: _ipLabel, fontPackage: _fontPackage);
@@ -41,6 +42,8 @@ class CustomIcons {
       IconData(0xe805, fontFamily: _portableLabel, fontPackage: _fontPackage);
   static const IconData computer =
       IconData(0xe801, fontFamily: _computerLabel, fontPackage: _fontPackage);
+  static const IconData lakka =
+      IconData(0xe803, fontFamily: _lakkaLabel, fontPackage: _fontPackage);
 
   static const Map<String, IconData> imageMap = {
     "mame": CustomIcons.arcade,
@@ -51,8 +54,12 @@ class CustomIcons {
     "model3": CustomIcons.arcade,
     "naomi": CustomIcons.arcade,
     "naomi2": CustomIcons.arcade,
+    "naomigd": CustomIcons.arcade,
     "triforce": CustomIcons.arcade,
     "atomiswave": CustomIcons.arcade,
+    "fba": CustomIcons.arcade,
+    "mame-libretro": CustomIcons.arcade,
+    "arcade": CustomIcons.arcade,
     "channelf": CustomIcons.home,
     "atari2600": CustomIcons.home,
     "odyssey2": CustomIcons.home,
@@ -61,6 +68,7 @@ class CustomIcons {
     "intellivision": CustomIcons.home,
     "atari5200": CustomIcons.home,
     "colecovision": CustomIcons.home,
+    "coleco": CustomIcons.home,
     "advision": CustomIcons.home,
     "vectrex": CustomIcons.home,
     "crvision": CustomIcons.home,
@@ -78,6 +86,7 @@ class CustomIcons {
     "megadrive": CustomIcons.home,
     "pcenginecd": CustomIcons.home,
     "supergrafx": CustomIcons.home,
+    "genesis": CustomIcons.home,
     "snes": CustomIcons.home,
     "neogeo": CustomIcons.home,
     "cdi": CustomIcons.home,
@@ -101,6 +110,7 @@ class CustomIcons {
     "n64": CustomIcons.home,
     "dreamcast": CustomIcons.home,
     "n64dd": CustomIcons.home,
+    "64dd": CustomIcons.home,
     "ps2": CustomIcons.home,
     "gamecube": CustomIcons.home,
     "xbox": CustomIcons.home,
@@ -113,10 +123,14 @@ class CustomIcons {
     "pico8": CustomIcons.home,
     "tic80": CustomIcons.home,
     "lowresnx": CustomIcons.home,
+    "multivision": CustomIcons.home,
     "wasm4": CustomIcons.home,
     "o2em": CustomIcons.home,
+    "sg-1000": CustomIcons.home,
     "vc4000": CustomIcons.home,
+    "atarilynx": CustomIcons.portable,
     "gameandwatch": CustomIcons.portable,
+    "gw": CustomIcons.portable,
     "lcdgames": CustomIcons.portable,
     "gb": CustomIcons.portable,
     "gb2players": CustomIcons.portable,
@@ -138,6 +152,8 @@ class CustomIcons {
     "nds": CustomIcons.portable,
     "psp": CustomIcons.portable,
     "3ds": CustomIcons.portable,
+    "palm": CustomIcons.portable,
+    "pcv2": CustomIcons.portable,
     "psvita": CustomIcons.portable,
     "arduboy": CustomIcons.portable,
     "gamepock": CustomIcons.portable,
@@ -145,6 +161,12 @@ class CustomIcons {
     "pdp1": CustomIcons.computer,
     "apple2": CustomIcons.computer,
     "pet": CustomIcons.computer,
+    "spectravideo": CustomIcons.computer,
+    "ti994a": CustomIcons.computer,
+    "trs80coco": CustomIcons.computer,
+    "vg5000": CustomIcons.computer,
+    "vic20": CustomIcons.computer,
+    "zmachine": CustomIcons.computer,
     "atari800": CustomIcons.computer,
     "atom": CustomIcons.computer,
     "c20": CustomIcons.computer,
@@ -154,6 +176,7 @@ class CustomIcons {
     "zx81": CustomIcons.computer,
     "bbc": CustomIcons.computer,
     "x1": CustomIcons.computer,
+    "oricatmos": CustomIcons.computer,
     "zxspectrum": CustomIcons.computer,
     "c64": CustomIcons.computer,
     "pc98": CustomIcons.computer,
@@ -162,6 +185,7 @@ class CustomIcons {
     "electron": CustomIcons.computer,
     "camplynx": CustomIcons.computer,
     "msx1": CustomIcons.computer,
+    "msx": CustomIcons.computer,
     "adam": CustomIcons.computer,
     "amstradcpc": CustomIcons.computer,
     "macintosh": CustomIcons.computer,
@@ -175,6 +199,10 @@ class CustomIcons {
     "archimedes": CustomIcons.computer,
     "xegs": CustomIcons.computer,
     "amiga500": CustomIcons.computer,
+    "amiga600": CustomIcons.computer,
+    "bbcmicro": CustomIcons.computer,
+    "bk": CustomIcons.computer,
+    "dragon": CustomIcons.computer,
     "x68000": CustomIcons.computer,
     "msx2+": CustomIcons.computer,
     "fmtowns": CustomIcons.computer,

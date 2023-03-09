@@ -19,6 +19,10 @@ class SFTPRequests {
     ".pygame",
     "manuals",
     "data",
+    ".p2k",
+    ".core",
+    "gamelink",
+    "recalbox-tic80",
     "naomi.zip",
     "skns.zip",
     "neogeo.zip",
@@ -49,6 +53,7 @@ class SFTPRequests {
     "worlds",
     "retrotrivia",
     "game-musics",
+    "music",
     "images"
   ];
 
@@ -66,9 +71,14 @@ class SFTPRequests {
           route = "/media/SHARE/";
         }
         break;
-      case "Retropie":
+      case "RetroPie":
         {
           route = "/home/pi/RetroPie/";
+        }
+        break;
+      case "Lakka":
+        {
+          route = "/storage/";
         }
         break;
       default:
@@ -110,7 +120,9 @@ class SFTPRequests {
 
           if (data != null) {
             for (var element in data) {
-              if (element["filename"] != "odcommander") {
+              if (element["filename"] != "odcommander" &&
+                  element["filename"] != "240ptestsuite" &&
+                  element["filename"] != "ports") {
                 results.add(element["filename"]);
               }
             }
