@@ -1,7 +1,13 @@
 # Arcade Companion
 
-An easy way to manage the removal of your ROMs if you are using Batocera, Lakka, Recalbox or Retropie (SFTP requests).
+An easy way to manage the removal of your ROMs if you are using Batocera, Lakka, Recalbox or Retropie.
+
+It is especially useful for those who have a machine in an arcade cabinet where it can be less pleasant to browse the menus.
+
+For Lakka users, please name your system folders following the Batocera systems list: https://wiki.batocera.org/systems
+
 Available on Google Play Store: https://play.google.com/store/apps/details?id=com.mimosoftware.roms_manager&gl=FR
+
 App Store soon.
 
 ## Screenshots
