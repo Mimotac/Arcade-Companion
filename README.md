@@ -1,4 +1,4 @@
-# ROMs Manager
+# Arcade Companion
 
 An easy way to manage the removal of your ROMs if you are using Batocera, Lakka, Recalbox or Retropie (SFTP requests).
 Available on Google Play Store: https://play.google.com/store/apps/details?id=com.mimosoftware.roms_manager&gl=FR
