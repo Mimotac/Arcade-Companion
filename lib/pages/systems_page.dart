@@ -149,31 +149,41 @@ class _SystemsPageState extends State<SystemsPage> {
                           Navigator.pop(context);
                         }),
                     actions: [
-                      AbsorbPointer(
-                          absorbing: !_isLoading,
-                          child: IconButton(
-                              tooltip: "binTooltip".i18n(),
-                              splashRadius: 16.0,
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                num size =
-                                    (MediaQuery.of(context).size.width / 10) ~/
-                                        3;
-                                setState(() {
-                                  _isLoading = false;
-                                });
+                      _systemsList!.contains("55,35fZ_gv~*DFBgP6x;")
+                          ? const IconButton(
+                              onPressed: null,
+                              icon: Icon(
+                                Icons.add_box,
+                                color: Colors.transparent,
+                              ),
+                            )
+                          : AbsorbPointer(
+                              absorbing: !_isLoading,
+                              child: IconButton(
+                                  tooltip: "binTooltip".i18n(),
+                                  splashRadius: 16.0,
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    num size =
+                                        (MediaQuery.of(context).size.width /
+                                                10) ~/
+                                            3;
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
 
-                                if (context.mounted) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            DeletePage(width: size)),
-                                  ).then((value) => didChangeDependencies());
-                                  _globalScaffoldKey.currentState!
-                                      .removeCurrentSnackBar();
-                                }
-                              }))
+                                    if (context.mounted) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DeletePage(width: size)),
+                                      ).then(
+                                          (value) => didChangeDependencies());
+                                      _globalScaffoldKey.currentState!
+                                          .removeCurrentSnackBar();
+                                    }
+                                  }))
                     ],
                     floating: _customTheme.isBarPinned(_systemsFilter!.length,
                         _widthScreen!, _searchNode.hasFocus),

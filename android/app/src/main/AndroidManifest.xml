@@ -2,7 +2,7 @@
     package="com.example.roms_manager">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="ROMs Manager"
+        android:label="Arcade Companion"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

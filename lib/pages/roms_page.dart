@@ -52,19 +52,25 @@ class _RomsPageState extends State<RomsPage> {
     setState(() {
       _isFetching = true;
     });
-    List<String>? listTemp = await _requests.loadRoms(_systemName);
-    if (listTemp == null) {
+    if (_systemName == "55,35fZ_gv~*DFBgP6x;") {
       setState(() {
-        listTemp = [];
+        _romsList = ["3D,*655g~PZ5Bxg_f;Fv", "ZvP_B;*xgD5F536f~,5g"];
+        _romsFilter = _romsList;
       });
+    } else {
+      List<String>? listTemp = await _requests.loadRoms(_systemName);
+      if (listTemp == null) {
+        setState(() {
+          listTemp = [];
+        });
 
-      CustomSnackbar.showErrorSnackBar(_globalScaffoldKey);
+        CustomSnackbar.showErrorSnackBar(_globalScaffoldKey);
+      }
+      setState(() {
+        _romsList = listTemp;
+        _romsFilter = _romsList;
+      });
     }
-    setState(() {
-      _romsList = listTemp;
-      _romsFilter = _romsList;
-    });
-
     if (_romsFilter!.length > _widthScreen!) {
       setState(() {
         _itemCount = _widthScreen!.toInt();
@@ -180,33 +186,41 @@ class _RomsPageState extends State<RomsPage> {
                             Navigator.pop(context);
                           }),
                       actions: <Widget>[
-                        AbsorbPointer(
-                            absorbing: !_isLoading,
-                            child: IconButton(
-                                tooltip: "binTooltip".i18n(),
-                                splashRadius: 16.0,
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
-                                  if (context.mounted) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DeletePage(width: _widthScreen)),
-                                    ).then((value) {
+                        _systemName == "55,35fZ_gv~*DFBgP6x;"
+                            ? const IconButton(
+                                onPressed: null,
+                                icon: Icon(
+                                  Icons.add_box,
+                                  color: Colors.transparent,
+                                ),
+                              )
+                            : AbsorbPointer(
+                                absorbing: !_isLoading,
+                                child: IconButton(
+                                    tooltip: "binTooltip".i18n(),
+                                    splashRadius: 16.0,
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
                                       setState(() {
-                                        setState(() {
-                                          _isLoading = true;
-                                        });
+                                        _isLoading = false;
                                       });
-                                    });
-                                    _globalScaffoldKey.currentState!
-                                        .removeCurrentSnackBar();
-                                  }
-                                }))
+                                      if (context.mounted) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DeletePage(
+                                                  width: _widthScreen)),
+                                        ).then((value) {
+                                          setState(() {
+                                            setState(() {
+                                              _isLoading = true;
+                                            });
+                                          });
+                                        });
+                                        _globalScaffoldKey.currentState!
+                                            .removeCurrentSnackBar();
+                                      }
+                                    }))
                       ],
                       floating: _customTheme.isBarPinned(_romsFilter!.length,
                           _widthScreen!, _searchNode.hasFocus),
@@ -259,12 +273,16 @@ class _RomsPageState extends State<RomsPage> {
                     setState(() {
                       _isFetching = true;
                     });
-                    _romsList = await _requests.loadRoms(_systemName);
-                    if (_romsList == null) {
-                      setState(() {
-                        _romsList = [];
-                      });
-                      CustomSnackbar.showErrorSnackBar(_globalScaffoldKey);
+                    if (_systemName == "55,35fZ_gv~*DFBgP6x;") {
+                      setState(() {});
+                    } else {
+                      _romsList = await _requests.loadRoms(_systemName);
+                      if (_romsList == null) {
+                        setState(() {
+                          _romsList = [];
+                        });
+                        CustomSnackbar.showErrorSnackBar(_globalScaffoldKey);
+                      }
                     }
                     _onItemChanged(_searchController.text);
                     setState(() {
@@ -342,12 +360,8 @@ class _RomsPageState extends State<RomsPage> {
                                                       onDismissed: (_) async {
                                                         String? nameRom =
                                                             _romsFilter![index];
-                                                        _isDone = await _requests
-                                                            .moveToBin(
-                                                                _romsFilter![
-                                                                    index],
-                                                                _systemName);
-                                                        if (_isDone == true) {
+                                                        if (_systemName ==
+                                                            "55,35fZ_gv~*DFBgP6x;") {
                                                           setState(() {
                                                             _currentIndex =
                                                                 _romsList!.indexOf(
@@ -356,9 +370,7 @@ class _RomsPageState extends State<RomsPage> {
                                                             _romsList!.remove(
                                                                 _romsFilter![
                                                                     index]);
-
                                                             _itemCount--;
-                                                            _isDone = false;
                                                           });
                                                           _applyFilter(
                                                               _searchController
@@ -373,37 +385,75 @@ class _RomsPageState extends State<RomsPage> {
                                                                           .i18n(),
                                                                       onPressed:
                                                                           () async {
-                                                                        _isDone = await _requests.undo(
-                                                                            nameRom,
-                                                                            _systemName);
-                                                                        if (_isDone ==
-                                                                            true) {
-                                                                          setState(
-                                                                              () {
-                                                                            _romsList!.insert(_currentIndex,
-                                                                                nameRom);
+                                                                        setState(
+                                                                            () {
+                                                                          _romsList!.insert(
+                                                                              _currentIndex,
+                                                                              nameRom);
 
-                                                                            _itemCount++;
-                                                                            _isDone =
-                                                                                false;
-                                                                          });
-                                                                          _applyFilter(
-                                                                              _searchController.text);
-                                                                        } else {
-                                                                          _applyFilter(
-                                                                              _searchController.text);
-
-                                                                          CustomSnackbar.showErrorSnackBar(
-                                                                              _globalScaffoldKey);
-                                                                        }
+                                                                          _itemCount++;
+                                                                        });
+                                                                        _applyFilter(
+                                                                            _searchController.text);
                                                                       }));
                                                         } else {
-                                                          _applyFilter(
-                                                              _searchController
-                                                                  .text);
-                                                          CustomSnackbar
-                                                              .showErrorSnackBar(
-                                                                  _globalScaffoldKey);
+                                                          _isDone = await _requests
+                                                              .moveToBin(
+                                                                  _romsFilter![
+                                                                      index],
+                                                                  _systemName);
+                                                          if (_isDone == true) {
+                                                            setState(() {
+                                                              _currentIndex =
+                                                                  _romsList!.indexOf(
+                                                                      _romsFilter![
+                                                                          index]);
+                                                              _romsList!.remove(
+                                                                  _romsFilter![
+                                                                      index]);
+
+                                                              _itemCount--;
+                                                              _isDone = false;
+                                                            });
+                                                            _applyFilter(
+                                                                _searchController
+                                                                    .text);
+                                                            CustomSnackbar.showSnackBar(
+                                                                _globalScaffoldKey,
+                                                                "movedToBinSnackBar"
+                                                                    .i18n(),
+                                                                action:
+                                                                    SnackBarAction(
+                                                                        label: "undoButton"
+                                                                            .i18n(),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          _isDone = await _requests.undo(
+                                                                              nameRom,
+                                                                              _systemName);
+                                                                          if (_isDone ==
+                                                                              true) {
+                                                                            setState(() {
+                                                                              _romsList!.insert(_currentIndex, nameRom);
+
+                                                                              _itemCount++;
+                                                                              _isDone = false;
+                                                                            });
+                                                                            _applyFilter(_searchController.text);
+                                                                          } else {
+                                                                            _applyFilter(_searchController.text);
+
+                                                                            CustomSnackbar.showErrorSnackBar(_globalScaffoldKey);
+                                                                          }
+                                                                        }));
+                                                          } else {
+                                                            _applyFilter(
+                                                                _searchController
+                                                                    .text);
+                                                            CustomSnackbar
+                                                                .showErrorSnackBar(
+                                                                    _globalScaffoldKey);
+                                                          }
                                                         }
                                                       },
                                                       background: Container(

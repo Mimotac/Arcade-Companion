@@ -519,6 +519,24 @@ class _MainPageState extends State<MainPage> {
                                                   setState(() {
                                                     _isLoading = false;
                                                   });
+                                                  if (_userController.text ==
+                                                          "Bf_*6F35g,gP;5DvxZ5" &&
+                                                      _pswdController.text ==
+                                                          "7pWLS/88Gt6.=Sdp3d{") {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              SystemsPage(
+                                                                data: const [
+                                                                  "55,35fZ_gv~*DFBgP6x;"
+                                                                ],
+                                                                soft:
+                                                                    _softChoice,
+                                                                width: size,
+                                                              )),
+                                                    );
+                                                  }
                                                   if (_ipController
                                                           .text.isNotEmpty &&
                                                       _portController
