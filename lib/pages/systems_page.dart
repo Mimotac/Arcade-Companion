@@ -162,6 +162,7 @@ class _SystemsPageState extends State<SystemsPage> {
                               child: IconButton(
                                   tooltip: "binTooltip".i18n(),
                                   splashRadius: 16.0,
+                                  color: Colors.white,
                                   icon: const Icon(Icons.delete),
                                   onPressed: () {
                                     num size =
@@ -291,7 +292,7 @@ class _SystemsPageState extends State<SystemsPage> {
                                                   child: InkWell(
                                                       borderRadius:
                                                           const BorderRadius
-                                                                  .all(
+                                                              .all(
                                                               Radius.circular(
                                                                   3.0)),
                                                       onTap: () {
@@ -373,8 +374,10 @@ class _SystemsPageState extends State<SystemsPage> {
                                                                     child: Center(
                                                                       child:
                                                                           Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(horizontal: 5),
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                5),
                                                                         child: Text(
                                                                             f.toUpperCase(),
                                                                             overflow: TextOverflow.ellipsis,
@@ -554,7 +557,7 @@ class _SystemsPageState extends State<SystemsPage> {
                                                                     child:
                                                                         Padding(
                                                                       padding: const EdgeInsets
-                                                                              .symmetric(
+                                                                          .symmetric(
                                                                           horizontal:
                                                                               5),
                                                                       child: Text(
