@@ -9,6 +9,7 @@ class SFTPRequests {
   final List<String> _excludeList = [
     ".txt",
     ".sub",
+    ".sav",
     ".ccd",
     ".raw",
     ".fs",
@@ -54,7 +55,8 @@ class SFTPRequests {
     "retrotrivia",
     "game-musics",
     "music",
-    "images"
+    "images",
+    "main"
   ];
 
   String _systemChoice(String system) {

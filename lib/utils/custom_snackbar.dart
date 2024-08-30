@@ -18,11 +18,13 @@ class CustomSnackbar {
       GlobalKey<ScaffoldMessengerState> globalScaffoldKey, String text,
       {SnackBarAction? action}) {
     globalScaffoldKey.currentState!.showSnackBar(SnackBar(
-      content: Text(
-        text,
-      ),
-      action: action,
-      behavior: SnackBarBehavior.floating,
-    ));
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+        content: Wrap(children: [
+          Text(
+            text,
+          )
+        ]),
+        action: action,
+        behavior: SnackBarBehavior.floating));
   }
 }

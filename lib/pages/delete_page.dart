@@ -33,6 +33,10 @@ class _DeletePageState extends State<DeletePage> {
   final SFTPRequests _requests = SFTPRequests();
   final CustomThemes _customTheme = CustomThemes();
 
+  Color? _searchPrefixIconColor() {
+    return _searchNode.hasFocus ? Colors.deepPurple : null;
+  }
+
   void _onOnFocusNodeEvent() {
     setState(() {
       // Re-renders
@@ -164,11 +168,11 @@ class _DeletePageState extends State<DeletePage> {
         child: Scaffold(
           floatingActionButton: Material(
               color: Colors.transparent,
-              borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-              elevation: 1.0,
+              borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+              elevation: 6.0,
               child: Ink(
                   decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -184,7 +188,7 @@ class _DeletePageState extends State<DeletePage> {
                               start: 20.0, end: 20.0)
                           : const EdgeInsetsDirectional.all(0.0),
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
                       ),
                       elevation: 0.0,
                       backgroundColor: Colors.transparent,
@@ -202,13 +206,13 @@ class _DeletePageState extends State<DeletePage> {
                                 Material(
                                     color: Colors.transparent,
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(3.0)),
-                                    elevation: 1.0,
+                                        Radius.circular(12.0)),
+                                    elevation: 3.0,
                                     child: Ink(
                                         padding: const EdgeInsets.all(0),
                                         decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.all(
-                                                Radius.circular(3.0)),
+                                                Radius.circular(12.0)),
                                             gradient: LinearGradient(
                                               begin: Alignment.topLeft,
                                               end: Alignment.bottomRight,
@@ -220,7 +224,7 @@ class _DeletePageState extends State<DeletePage> {
                                             )),
                                         child: InkWell(
                                           borderRadius: const BorderRadius.all(
-                                              Radius.circular(3.0)),
+                                              Radius.circular(12.0)),
                                           onTap: () async {
                                             _isDone = await _requests
                                                 .deleteRoms(_deleteRomsList);
@@ -260,8 +264,7 @@ class _DeletePageState extends State<DeletePage> {
                                               child: Text(
                                                 "confirmButton".i18n(),
                                                 style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 8.5),
+                                                    color: Colors.white),
                                               )),
                                         ))),
                               ],
@@ -320,8 +323,9 @@ class _DeletePageState extends State<DeletePage> {
                     ],
                     leading: IconButton(
                         tooltip: "backTooltip".i18n(),
-                        splashRadius: 22.0,
+                        splashRadius: 16.0,
                         icon: const Icon(Icons.arrow_back),
+                        color: Colors.white,
                         onPressed: () {
                           ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           Navigator.pop(context);
@@ -335,9 +339,9 @@ class _DeletePageState extends State<DeletePage> {
                     forceElevated: true,
                     title: Material(
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(3.0)),
+                            const BorderRadius.all(Radius.circular(6.0)),
                         color: Colors.transparent,
-                        elevation: 1.0,
+                        elevation: 6.0,
                         child: SizedBox(
                             height: 40,
                             child: TextField(
@@ -345,14 +349,16 @@ class _DeletePageState extends State<DeletePage> {
                               enableSuggestions: false,
                               key: _searchKey,
                               controller: _searchController,
+                              focusNode: _searchNode,
                               onChanged: _onItemChanged,
                               decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.all(0),
                                   filled: true,
-                                  prefixIcon: const Icon(Icons.search),
+                                  prefixIcon: Icon(Icons.search,
+                                      color: _searchPrefixIconColor()),
                                   suffixIcon: !(_searchController.text == "")
                                       ? IconButton(
-                                          splashRadius: 22.0,
+                                          splashRadius: 16.0,
                                           onPressed: () {
                                             setState(() {
                                               _searchController.clear();
@@ -397,14 +403,18 @@ class _DeletePageState extends State<DeletePage> {
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: Image.asset(
                                       "assets/bin.png",
-                                      scale: 6.0,
+                                      scale: 5.0,
                                     )),
-                                Text("recycleBinTitle".i18n())
+                                Text(
+                                  "recycleBinTitle".i18n(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                )
                               ])),
                           Column(children: [
                             Text(
                               "romsLabel".i18n(),
-                              style: const TextStyle(fontSize: 8.5),
+                              style: const TextStyle(fontSize: 12.0),
                             ),
                             Padding(
                                 padding:
@@ -413,204 +423,189 @@ class _DeletePageState extends State<DeletePage> {
                                     style: const TextStyle(fontSize: 8.5))),
                             !_isFetching
                                 ? _deleteRomsFilter!.isNotEmpty
-                                    ? Card(
-                                        color: _customTheme.isDarkTheme(context)
-                                            ? const Color(0xFF1A1A1A)
-                                                .withOpacity(0.6)
-                                            : const Color(0xFFF2F2F2)
-                                                .withOpacity(0.6),
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          padding: const EdgeInsets.all(10),
-                                          itemCount: _itemCount,
-                                          itemBuilder:
-                                              (BuildContext ctx, index) {
-                                            return Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 5),
-                                                child: Dismissible(
-                                                  key: UniqueKey(),
-                                                  direction: DismissDirection
-                                                      .horizontal,
-                                                  onDismissed: (DismissDirection
-                                                      direction) async {
-                                                    if (direction ==
-                                                        DismissDirection
-                                                            .startToEnd) {
-                                                      _isDone = await _requests
-                                                          .saveRom(
-                                                              _deleteRomsFilter![
-                                                                  index]);
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        padding: const EdgeInsets.all(10),
+                                        itemCount: _itemCount,
+                                        itemBuilder: (BuildContext ctx, index) {
+                                          return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 5),
+                                              child: Dismissible(
+                                                key: UniqueKey(),
+                                                direction:
+                                                    DismissDirection.horizontal,
+                                                onDismissed: (DismissDirection
+                                                    direction) async {
+                                                  if (direction ==
+                                                      DismissDirection
+                                                          .startToEnd) {
+                                                    _isDone =
+                                                        await _requests.saveRom(
+                                                            _deleteRomsFilter![
+                                                                index]);
 
-                                                      if (_isDone == true) {
-                                                        setState(() {
-                                                          _deleteRomsList!.remove(
-                                                              _deleteRomsFilter![
-                                                                  index]);
+                                                    if (_isDone == true) {
+                                                      setState(() {
+                                                        _deleteRomsList!.remove(
+                                                            _deleteRomsFilter![
+                                                                index]);
 
-                                                          _itemCount--;
-                                                          _isDone = false;
-                                                        });
-                                                        _applyFilter(
-                                                            _searchController
-                                                                .text);
+                                                        _itemCount--;
+                                                        _isDone = false;
+                                                      });
+                                                      _applyFilter(
+                                                          _searchController
+                                                              .text);
 
-                                                        CustomSnackbar
-                                                            .showSnackBar(
-                                                                _globalScaffoldKey,
-                                                                "saveSnackBar"
-                                                                    .i18n());
-                                                      } else {
-                                                        _applyFilter(
-                                                            _searchController
-                                                                .text);
-
-                                                        CustomSnackbar
-                                                            .showErrorSnackBar(
-                                                                _globalScaffoldKey);
-                                                      }
+                                                      CustomSnackbar
+                                                          .showSnackBar(
+                                                              _globalScaffoldKey,
+                                                              "saveSnackBar"
+                                                                  .i18n());
                                                     } else {
-                                                      _isDone = await _requests
-                                                          .deleteRom(
-                                                              _deleteRomsFilter![
-                                                                  index]);
+                                                      _applyFilter(
+                                                          _searchController
+                                                              .text);
 
-                                                      if (_isDone == true) {
-                                                        setState(() {
-                                                          _deleteRomsList!.remove(
-                                                              _deleteRomsFilter![
-                                                                  index]);
-
-                                                          _itemCount--;
-                                                          _isDone = false;
-                                                        });
-                                                        _applyFilter(
-                                                            _searchController
-                                                                .text);
-
-                                                        CustomSnackbar
-                                                            .showSnackBar(
-                                                                _globalScaffoldKey,
-                                                                "deleteSnackBar"
-                                                                    .i18n());
-                                                      } else {
-                                                        _applyFilter(
-                                                            _searchController
-                                                                .text);
-
-                                                        CustomSnackbar
-                                                            .showErrorSnackBar(
-                                                                _globalScaffoldKey);
-                                                      }
+                                                      CustomSnackbar
+                                                          .showErrorSnackBar(
+                                                              _globalScaffoldKey);
                                                     }
-                                                  },
-                                                  secondaryBackground:
-                                                      Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  3.0)),
-                                                      color: Colors.red,
-                                                      shape: BoxShape.rectangle,
-                                                    ),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: <Widget>[
-                                                          const Icon(
-                                                            Icons.delete,
-                                                            color: Colors.white,
-                                                          ),
-                                                          Text(
-                                                            ' ${"deleteDismissible".i18n()}',
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        8.5),
-                                                            textAlign:
-                                                                TextAlign.right,
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 20,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  background: Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  3.0)),
-                                                      color: Colors.lightGreen,
-                                                      shape: BoxShape.rectangle,
-                                                    ),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: <Widget>[
-                                                          const SizedBox(
-                                                            width: 20,
-                                                          ),
-                                                          Text(
-                                                            '${"restoreDismissible".i18n()} ',
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        8.5),
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                          ),
-                                                          const Icon(
-                                                            Icons.verified_user,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  child: Material(
+                                                  } else {
+                                                    _isDone = await _requests
+                                                        .deleteRom(
+                                                            _deleteRomsFilter![
+                                                                index]);
+
+                                                    if (_isDone == true) {
+                                                      setState(() {
+                                                        _deleteRomsList!.remove(
+                                                            _deleteRomsFilter![
+                                                                index]);
+
+                                                        _itemCount--;
+                                                        _isDone = false;
+                                                      });
+                                                      _applyFilter(
+                                                          _searchController
+                                                              .text);
+
+                                                      CustomSnackbar
+                                                          .showSnackBar(
+                                                              _globalScaffoldKey,
+                                                              "deleteSnackBar"
+                                                                  .i18n());
+                                                    } else {
+                                                      _applyFilter(
+                                                          _searchController
+                                                              .text);
+
+                                                      CustomSnackbar
+                                                          .showErrorSnackBar(
+                                                              _globalScaffoldKey);
+                                                    }
+                                                  }
+                                                },
+                                                secondaryBackground: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     borderRadius:
-                                                        const BorderRadius.all(
+                                                        BorderRadius.all(
                                                             Radius.circular(
-                                                                3.0)),
-                                                    elevation: 1.0,
-                                                    child: ListTile(
-                                                      horizontalTitleGap: 10,
-                                                      dense: true,
-                                                      contentPadding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      leading: Container(
+                                                                6.0)),
+                                                    color: Colors.red,
+                                                    shape: BoxShape.rectangle,
+                                                  ),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: <Widget>[
+                                                        const Icon(
+                                                          Icons.delete,
+                                                          color: Colors.white,
+                                                        ),
+                                                        Text(
+                                                          ' ${"deleteDismissible".i18n()}',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      12.0),
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                background: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                6.0)),
+                                                    color: Colors.lightGreen,
+                                                    shape: BoxShape.rectangle,
+                                                  ),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          '${"restoreDismissible".i18n()} ',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      12.0),
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                        const Icon(
+                                                          Icons.verified_user,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Material(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(6.0)),
+                                                  elevation: 6.0,
+                                                  child: IntrinsicHeight(
+                                                    child: Row(children: [
+                                                      Container(
+                                                        width: 50,
                                                         decoration:
                                                             const BoxDecoration(
                                                                 borderRadius: BorderRadius.only(
                                                                     topLeft: Radius
                                                                         .circular(
-                                                                            3.0),
+                                                                            6.0),
                                                                     bottomLeft:
                                                                         Radius.circular(
-                                                                            3.0)),
+                                                                            6.0)),
                                                                 gradient:
                                                                     LinearGradient(
                                                                   begin: Alignment
@@ -638,8 +633,6 @@ class _DeletePageState extends State<DeletePage> {
                                                                             1)
                                                                   ],
                                                                 )),
-                                                        width: 50,
-                                                        height: double.infinity,
                                                         child: Center(
                                                           child: Text(
                                                             _deleteRomsFilter![
@@ -667,57 +660,55 @@ class _DeletePageState extends State<DeletePage> {
                                                                         .ellipsis,
                                                                 letterSpacing:
                                                                     1,
-                                                                fontSize: 6.5,
+                                                                fontSize: 12.0,
                                                                 color: Colors
-                                                                    .white),
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
                                                           ),
                                                         ),
                                                       ),
-                                                      title: Text(
-                                                        _deleteRomsFilter![
-                                                                    index]
-                                                                .contains(".")
-                                                            ? _deleteRomsFilter![
-                                                                    index]
-                                                                .substring(
-                                                                    0,
-                                                                    _deleteRomsFilter![
+                                                      Expanded(
+                                                          child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(
+                                                                      10.0),
+                                                              child: Text(
+                                                                _deleteRomsFilter![
                                                                             index]
-                                                                        .lastIndexOf(
-                                                                            "."))
-                                                            : _deleteRomsFilter![
-                                                                index],
-                                                        maxLines: 3,
-                                                        style: const TextStyle(
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            height: 1.5,
-                                                            fontSize: 8.5),
-                                                      ),
-                                                      trailing: Container(
+                                                                        .contains(
+                                                                            ".")
+                                                                    ? _deleteRomsFilter![
+                                                                            index]
+                                                                        .substring(
+                                                                            0,
+                                                                            _deleteRomsFilter![index].lastIndexOf(
+                                                                                "."))
+                                                                    : _deleteRomsFilter![
+                                                                        index],
+                                                                maxLines: 3,
+                                                                style: const TextStyle(
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    height: 1.5,
+                                                                    fontSize:
+                                                                        12.0),
+                                                              ))),
+                                                      const SizedBox(
                                                           width: 50,
-                                                          height:
-                                                              double.infinity,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  left: BorderSide(
-                                                                      width:
-                                                                          0.1,
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .textTheme
-                                                                          .bodyMedium!
-                                                                          .color!))),
-                                                          child: const Center(
+                                                          child: Center(
                                                               child: Icon(
                                                             Icons.swap_horiz,
-                                                          ))),
-                                                    ),
+                                                          )))
+                                                    ]),
                                                   ),
-                                                ));
-                                          },
-                                        ))
+                                                ),
+                                              ));
+                                        },
+                                      )
                                     : Container()
                                 : const Padding(
                                     padding: EdgeInsets.only(top: 25),

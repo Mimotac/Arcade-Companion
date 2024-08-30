@@ -56,6 +56,10 @@ class _SystemsPageState extends State<SystemsPage> {
     _prefsRequests.setListPreferences(_favSystemsKey!, _favSystemsList!);
   }
 
+  Color? _searchPrefixIconColor() {
+    return _searchNode.hasFocus ? Colors.deepPurple : null;
+  }
+
   void _onOnFocusNodeEvent() {
     setState(() {
       // Re-renders
@@ -144,6 +148,7 @@ class _SystemsPageState extends State<SystemsPage> {
                         tooltip: "backTooltip".i18n(),
                         splashRadius: 16.0,
                         icon: const Icon(Icons.arrow_back),
+                        color: Colors.white,
                         onPressed: () {
                           ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           Navigator.pop(context);
@@ -193,9 +198,9 @@ class _SystemsPageState extends State<SystemsPage> {
                     forceElevated: true,
                     title: Material(
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(3.0)),
+                            const BorderRadius.all(Radius.circular(6.0)),
                         color: Colors.transparent,
-                        elevation: 1.0,
+                        elevation: 6.0,
                         child: SizedBox(
                             height: 40,
                             child: TextField(
@@ -208,8 +213,9 @@ class _SystemsPageState extends State<SystemsPage> {
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(0),
                                 filled: true,
-                                prefixIcon: const Icon(
+                                prefixIcon: Icon(
                                   Icons.search,
+                                  color: _searchPrefixIconColor(),
                                 ),
                                 suffixIcon: _searchController.text.isNotEmpty
                                     ? Material(
@@ -247,182 +253,178 @@ class _SystemsPageState extends State<SystemsPage> {
                               padding: const EdgeInsets.only(bottom: 10),
                               child: Image.asset(
                                 _softChoiceImage(),
-                                scale: 6.0,
+                                scale: 5.0,
                               )),
-                          Text(_favSystemsKey!)
+                          Text(
+                            _favSystemsKey!,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          )
                         ])),
                     _favSystemsFilter!.isNotEmpty
                         ? Column(children: [
                             Text(
                               "favoriteSystemsLabel".i18n(),
-                              style: const TextStyle(fontSize: 8.5),
                             ),
                             Padding(
                                 padding:
                                     const EdgeInsets.only(bottom: 25, top: 5),
                                 child: Text("(${_favSystemsList!.length})",
                                     style: const TextStyle(fontSize: 8.5))),
-                            Card(
-                                margin: const EdgeInsets.all(0),
-                                color: _customTheme.isDarkTheme(context)
-                                    ? const Color(0xFF1A1A1A).withOpacity(0.6)
-                                    : const Color(0xFFF2F2F2).withOpacity(0.6),
-                                child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0),
-                                    child: SizedBox(
-                                        height: _objectSize.height,
-                                        child: GridView.count(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0),
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          crossAxisCount: 1,
-                                          mainAxisSpacing: 5,
-                                          scrollDirection: Axis.horizontal,
-                                          shrinkWrap: true,
-                                          children: _favSystemsFilter!.map((f) {
-                                            return Material(
+                            SizedBox(
+                                height: _objectSize.height,
+                                child: GridView.count(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  physics: const BouncingScrollPhysics(),
+                                  crossAxisCount: 1,
+                                  mainAxisSpacing: 5,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  children: _favSystemsFilter!.map((f) {
+                                    return Material(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(6.0)),
+                                      elevation: 6.0,
+                                      child: AbsorbPointer(
+                                          absorbing: !_isLoading,
+                                          child: InkWell(
                                               borderRadius:
                                                   const BorderRadius.all(
-                                                      Radius.circular(3.0)),
-                                              elevation: 1.0,
-                                              child: AbsorbPointer(
-                                                  absorbing: !_isLoading,
-                                                  child: InkWell(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                              Radius.circular(
-                                                                  3.0)),
-                                                      onTap: () {
-                                                        setState(() {
-                                                          _isLoading = false;
-                                                        });
+                                                      Radius.circular(6.0)),
+                                              onTap: () {
+                                                setState(() {
+                                                  _isLoading = false;
+                                                });
 
-                                                        if (context.mounted) {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    RomsPage(
-                                                                        fav:
-                                                                            true,
-                                                                        width:
-                                                                            _widthScreen,
-                                                                        name:
-                                                                            f)),
-                                                          ).then((value) =>
-                                                              didChangeDependencies());
-                                                          _globalScaffoldKey
-                                                              .currentState!
-                                                              .removeCurrentSnackBar();
-                                                        }
-                                                      },
-                                                      enableFeedback: true,
-                                                      child: Stack(children: [
-                                                        Column(
-                                                          children: <Widget>[
-                                                            Expanded(
-                                                                child: Icon(
-                                                              CustomIcons
-                                                                      .imageMap
-                                                                      .containsKey(
-                                                                          f)
-                                                                  ? CustomIcons
-                                                                          .imageMap[
-                                                                      f]!
-                                                                  : CustomIcons
-                                                                      .misc,
-                                                              color: _customTheme
-                                                                      .isDarkTheme(
-                                                                          context)
-                                                                  ? Colors.white
-                                                                  : Colors.deepPurple[
-                                                                      900],
-                                                              size: 48,
-                                                            )),
-                                                            SizedBox(
-                                                                height: 30.0,
-                                                                child: Ink(
-                                                                    decoration: const BoxDecoration(
-                                                                        shape: BoxShape.rectangle,
-                                                                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(3.0), bottomRight: Radius.circular(3.0)),
-                                                                        gradient: LinearGradient(
-                                                                          begin:
-                                                                              Alignment.topLeft,
-                                                                          end: Alignment
-                                                                              .bottomRight,
-                                                                          colors: [
-                                                                            Color.fromRGBO(
-                                                                                15,
-                                                                                12,
-                                                                                41,
-                                                                                1),
-                                                                            Color.fromRGBO(
-                                                                                48,
-                                                                                43,
-                                                                                99,
-                                                                                1),
-                                                                            Color.fromRGBO(
-                                                                                36,
-                                                                                36,
-                                                                                62,
-                                                                                1)
-                                                                          ],
-                                                                        )),
-                                                                    child: Center(
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                                5),
-                                                                        child: Text(
-                                                                            f.toUpperCase(),
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            textAlign: TextAlign.center,
-                                                                            maxLines: 1,
-                                                                            style: const TextStyle(fontSize: 8, color: Colors.white)),
-                                                                      ),
-                                                                    ))),
-                                                          ],
-                                                        ),
-                                                        Positioned(
-                                                            right: -7,
-                                                            top: -7,
-                                                            child: IconButton(
-                                                                tooltip:
-                                                                    "favSystemsTooltip"
-                                                                        .i18n(),
-                                                                splashRadius:
-                                                                    16.0,
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    _favSystemsList!
-                                                                        .remove(
-                                                                            f);
-                                                                  });
-                                                                  _applyFilter(
-                                                                      _searchController
-                                                                          .text);
-                                                                  _setFavSystems();
+                                                if (context.mounted) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            RomsPage(
+                                                                fav: true,
+                                                                width:
+                                                                    _widthScreen,
+                                                                name: f)),
+                                                  ).then((value) =>
+                                                      didChangeDependencies());
+                                                  _globalScaffoldKey
+                                                      .currentState!
+                                                      .removeCurrentSnackBar();
+                                                }
+                                              },
+                                              enableFeedback: true,
+                                              child: Stack(children: [
+                                                Column(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                        child: Icon(
+                                                      CustomIcons.imageMap
+                                                              .containsKey(f)
+                                                          ? CustomIcons
+                                                              .imageMap[f]!
+                                                          : CustomIcons.misc,
+                                                      color: _customTheme
+                                                              .isDarkTheme(
+                                                                  context)
+                                                          ? Colors.white
+                                                          : Colors
+                                                              .deepPurple[900],
+                                                      size: 48,
+                                                    )),
+                                                    SizedBox(
+                                                        height: 30.0,
+                                                        child: Ink(
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .rectangle,
+                                                                    borderRadius: BorderRadius.only(
+                                                                        bottomLeft:
+                                                                            Radius.circular(
+                                                                                6.0),
+                                                                        bottomRight:
+                                                                            Radius.circular(
+                                                                                6.0)),
+                                                                    gradient:
+                                                                        LinearGradient(
+                                                                      begin: Alignment
+                                                                          .topLeft,
+                                                                      end: Alignment
+                                                                          .bottomRight,
+                                                                      colors: [
+                                                                        Color.fromRGBO(
+                                                                            15,
+                                                                            12,
+                                                                            41,
+                                                                            1),
+                                                                        Color.fromRGBO(
+                                                                            48,
+                                                                            43,
+                                                                            99,
+                                                                            1),
+                                                                        Color.fromRGBO(
+                                                                            36,
+                                                                            36,
+                                                                            62,
+                                                                            1)
+                                                                      ],
+                                                                    )),
+                                                            child: Center(
+                                                              child: Padding(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        5),
+                                                                child: Text(
+                                                                    f
+                                                                        .toUpperCase(),
+                                                                    overflow: TextOverflow
+                                                                        .ellipsis,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    maxLines: 1,
+                                                                    style: const TextStyle(
+                                                                        fontSize:
+                                                                            12.0,
+                                                                        color: Colors
+                                                                            .white)),
+                                                              ),
+                                                            ))),
+                                                  ],
+                                                ),
+                                                Positioned(
+                                                    right: -7,
+                                                    top: -7,
+                                                    child: IconButton(
+                                                        tooltip:
+                                                            "favSystemsTooltip"
+                                                                .i18n(),
+                                                        splashRadius: 16.0,
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            _favSystemsList!
+                                                                .remove(f);
+                                                          });
+                                                          _applyFilter(
+                                                              _searchController
+                                                                  .text);
+                                                          _setFavSystems();
 
-                                                                  CustomSnackbar.showSnackBar(
-                                                                      _globalScaffoldKey,
-                                                                      "removeFavoriteSnackBar"
-                                                                          .i18n());
-                                                                },
-                                                                icon:
-                                                                    const Icon(
-                                                                  Icons.star,
-                                                                  color: Colors
-                                                                      .amber,
-                                                                )))
-                                                      ]))),
-                                            );
-                                          }).toList(),
-                                        )))),
+                                                          CustomSnackbar.showSnackBar(
+                                                              _globalScaffoldKey,
+                                                              "removeFavoriteSnackBar"
+                                                                  .i18n());
+                                                        },
+                                                        icon: const Icon(
+                                                          Icons.star,
+                                                          color: Colors.amber,
+                                                        )))
+                                              ]))),
+                                    );
+                                  }).toList(),
+                                )),
                             Padding(
                                 padding: const EdgeInsets.only(
                                     left: 50, right: 50, top: 25),
@@ -440,174 +442,176 @@ class _SystemsPageState extends State<SystemsPage> {
                               Padding(
                                   padding: EdgeInsets.only(
                                       top: _favSystemsFilter!.isNotEmpty
-                                          ? 35
+                                          ? 25
                                           : 0),
                                   child: Text(
                                     "systemsLabel".i18n(),
-                                    style: const TextStyle(fontSize: 8.5),
                                   )),
                               Padding(
                                   padding:
                                       const EdgeInsets.only(bottom: 25, top: 5),
                                   child: Text("(${_systemsList!.length})",
                                       style: const TextStyle(fontSize: 8.5))),
-                              Card(
-                                  color: _customTheme.isDarkTheme(context)
-                                      ? const Color(0xFF1A1A1A).withOpacity(0.6)
-                                      : const Color(0xFFF2F2F2)
-                                          .withOpacity(0.6),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: GridView.count(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    crossAxisCount:
-                                        (_widthScreen!.toInt() ~/ 4),
-                                    mainAxisSpacing: 5,
-                                    crossAxisSpacing: 5,
-                                    padding: const EdgeInsets.all(10),
-                                    shrinkWrap: true,
-                                    children: _systemsFilter!.map((f) {
-                                      return WidgetsSize(
-                                          onChange: (Size size) {
-                                            setState(() {
-                                              _objectSize = size;
-                                            });
-                                          },
-                                          child: Material(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(3.0)),
-                                            elevation: 1.0,
-                                            child: AbsorbPointer(
-                                                absorbing: !_isLoading,
-                                                child: InkWell(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                3.0)),
-                                                    onTap: () {
-                                                      setState(() {
-                                                        _isLoading = false;
-                                                      });
+                              GridView.count(
+                                physics: const NeverScrollableScrollPhysics(),
+                                crossAxisCount: (_widthScreen!.toInt() ~/ 4),
+                                mainAxisSpacing: 5,
+                                crossAxisSpacing: 5,
+                                padding: const EdgeInsets.all(10),
+                                shrinkWrap: true,
+                                children: _systemsFilter!.map((f) {
+                                  return WidgetsSize(
+                                      onChange: (Size size) {
+                                        setState(() {
+                                          _objectSize = size;
+                                        });
+                                      },
+                                      child: Material(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(6.0)),
+                                        elevation: 6.0,
+                                        child: AbsorbPointer(
+                                            absorbing: !_isLoading,
+                                            child: InkWell(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(6.0)),
+                                                onTap: () {
+                                                  setState(() {
+                                                    _isLoading = false;
+                                                  });
 
-                                                      if (context.mounted) {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  RomsPage(
-                                                                      width:
-                                                                          _widthScreen,
-                                                                      name: f)),
-                                                        ).then((value) =>
-                                                            didChangeDependencies());
-                                                        _globalScaffoldKey
-                                                            .currentState!
-                                                            .removeCurrentSnackBar();
-                                                      }
-                                                    },
-                                                    enableFeedback: true,
-                                                    child: Stack(children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .stretch,
-                                                        children: <Widget>[
-                                                          Expanded(
-                                                              child: Icon(
-                                                            CustomIcons.imageMap
-                                                                    .containsKey(
-                                                                        f)
-                                                                ? CustomIcons
-                                                                        .imageMap[
-                                                                    f]!
-                                                                : CustomIcons
-                                                                    .misc,
-                                                            color: _customTheme
-                                                                    .isDarkTheme(
-                                                                        context)
-                                                                ? Colors.white
-                                                                : Colors.deepPurple[
-                                                                    900],
-                                                            size: 46,
-                                                          )),
-                                                          SizedBox(
-                                                              height: 30.0,
-                                                              child: Ink(
-                                                                  decoration:
-                                                                      const BoxDecoration(
-                                                                          shape: BoxShape
-                                                                              .rectangle,
-                                                                          borderRadius: BorderRadius.only(
-                                                                              bottomLeft: Radius.circular(3.0),
-                                                                              bottomRight: Radius.circular(3.0)),
-                                                                          gradient: LinearGradient(
-                                                                            begin:
-                                                                                Alignment.topLeft,
-                                                                            end:
-                                                                                Alignment.bottomRight,
-                                                                            colors: [
-                                                                              Color.fromRGBO(15, 12, 41, 1),
-                                                                              Color.fromRGBO(48, 43, 99, 1),
-                                                                              Color.fromRGBO(36, 36, 62, 1)
-                                                                            ],
-                                                                          )),
-                                                                  child: Center(
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal:
-                                                                              5),
-                                                                      child: Text(
-                                                                          f
-                                                                              .toUpperCase(),
-                                                                          overflow: TextOverflow
+                                                  if (context.mounted) {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              RomsPage(
+                                                                  width:
+                                                                      _widthScreen,
+                                                                  name: f)),
+                                                    ).then((value) =>
+                                                        didChangeDependencies());
+                                                    _globalScaffoldKey
+                                                        .currentState!
+                                                        .removeCurrentSnackBar();
+                                                  }
+                                                },
+                                                enableFeedback: true,
+                                                child: Stack(children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .stretch,
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                          child: Icon(
+                                                        CustomIcons.imageMap
+                                                                .containsKey(f)
+                                                            ? CustomIcons
+                                                                .imageMap[f]!
+                                                            : CustomIcons.misc,
+                                                        color: _customTheme
+                                                                .isDarkTheme(
+                                                                    context)
+                                                            ? Colors.white
+                                                            : Colors.deepPurple[
+                                                                900],
+                                                        size: 46,
+                                                      )),
+                                                      SizedBox(
+                                                          height: 30.0,
+                                                          child: Ink(
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                      shape: BoxShape
+                                                                          .rectangle,
+                                                                      borderRadius: BorderRadius.only(
+                                                                          bottomLeft: Radius.circular(
+                                                                              6.0),
+                                                                          bottomRight: Radius.circular(
+                                                                              6.0)),
+                                                                      gradient:
+                                                                          LinearGradient(
+                                                                        begin: Alignment
+                                                                            .topLeft,
+                                                                        end: Alignment
+                                                                            .bottomRight,
+                                                                        colors: [
+                                                                          Color.fromRGBO(
+                                                                              15,
+                                                                              12,
+                                                                              41,
+                                                                              1),
+                                                                          Color.fromRGBO(
+                                                                              48,
+                                                                              43,
+                                                                              99,
+                                                                              1),
+                                                                          Color.fromRGBO(
+                                                                              36,
+                                                                              36,
+                                                                              62,
+                                                                              1)
+                                                                        ],
+                                                                      )),
+                                                              child: Center(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          5),
+                                                                  child: Text(
+                                                                      f
+                                                                          .toUpperCase(),
+                                                                      overflow:
+                                                                          TextOverflow
                                                                               .ellipsis,
-                                                                          textAlign: TextAlign
+                                                                      textAlign:
+                                                                          TextAlign
                                                                               .center,
-                                                                          maxLines:
-                                                                              1,
-                                                                          style: const TextStyle(
-                                                                              fontSize: 8,
-                                                                              color: Colors.white)),
-                                                                    ),
-                                                                  ))),
-                                                        ],
-                                                      ),
-                                                      Positioned(
-                                                          right: -7,
-                                                          top: -7,
-                                                          child: IconButton(
-                                                              tooltip:
-                                                                  "systemsTooltip"
-                                                                      .i18n(),
-                                                              splashRadius:
-                                                                  16.0,
-                                                              onPressed: () {
-                                                                setState(() {
-                                                                  _favSystemsList!
-                                                                      .add(f);
-                                                                  _favSystemsList!
-                                                                      .sort();
-                                                                });
-                                                                _applyFilter(
-                                                                    _searchController
-                                                                        .text);
-                                                                _setFavSystems();
+                                                                      maxLines:
+                                                                          1,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              12.0,
+                                                                          color:
+                                                                              Colors.white)),
+                                                                ),
+                                                              ))),
+                                                    ],
+                                                  ),
+                                                  Positioned(
+                                                      right: -7,
+                                                      top: -7,
+                                                      child: IconButton(
+                                                          tooltip:
+                                                              "systemsTooltip"
+                                                                  .i18n(),
+                                                          splashRadius: 16.0,
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _favSystemsList!
+                                                                  .add(f);
+                                                              _favSystemsList!
+                                                                  .sort();
+                                                            });
+                                                            _applyFilter(
+                                                                _searchController
+                                                                    .text);
+                                                            _setFavSystems();
 
-                                                                CustomSnackbar.showSnackBar(
-                                                                    _globalScaffoldKey,
-                                                                    "addFavoriteSnackBar"
-                                                                        .i18n());
-                                                              },
-                                                              icon: const Icon(Icons
-                                                                  .star_border)))
-                                                    ]))),
-                                          ));
-                                    }).toList(),
-                                  ))
+                                                            CustomSnackbar.showSnackBar(
+                                                                _globalScaffoldKey,
+                                                                "addFavoriteSnackBar"
+                                                                    .i18n());
+                                                          },
+                                                          icon: const Icon(Icons
+                                                              .star_border)))
+                                                ]))),
+                                      ));
+                                }).toList(),
+                              )
                             ],
                           )
                         : Container()

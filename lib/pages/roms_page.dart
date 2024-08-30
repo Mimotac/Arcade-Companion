@@ -42,6 +42,10 @@ class _RomsPageState extends State<RomsPage> {
   final SFTPRequests _requests = SFTPRequests();
   final CustomThemes _customTheme = CustomThemes();
 
+  Color? _searchPrefixIconColor() {
+    return _searchNode.hasFocus ? Colors.deepPurple : null;
+  }
+
   void _onOnFocusNodeEvent() {
     setState(() {
       // Re-renders
@@ -180,6 +184,7 @@ class _RomsPageState extends State<RomsPage> {
                           tooltip: "backTooltip".i18n(),
                           splashRadius: 16.0,
                           icon: const Icon(Icons.arrow_back),
+                          color: Colors.white,
                           onPressed: () {
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
@@ -200,6 +205,7 @@ class _RomsPageState extends State<RomsPage> {
                                     tooltip: "binTooltip".i18n(),
                                     splashRadius: 16.0,
                                     icon: const Icon(Icons.delete),
+                                    color: Colors.white,
                                     onPressed: () {
                                       setState(() {
                                         _isLoading = false;
@@ -229,9 +235,9 @@ class _RomsPageState extends State<RomsPage> {
                       forceElevated: true,
                       title: Material(
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(3.0)),
+                            const BorderRadius.all(Radius.circular(6.0)),
                         color: Colors.transparent,
-                        elevation: 1.0,
+                        elevation: 6.0,
                         child: SizedBox(
                             height: 40,
                             child: TextField(
@@ -244,7 +250,8 @@ class _RomsPageState extends State<RomsPage> {
                               decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.all(0),
                                   filled: true,
-                                  prefixIcon: const Icon(Icons.search),
+                                  prefixIcon: Icon(Icons.search,
+                                      color: _searchPrefixIconColor()),
                                   suffixIcon: _searchController.text.isNotEmpty
                                       ? Material(
                                           shape: const CircleBorder(),
@@ -313,17 +320,18 @@ class _RomsPageState extends State<RomsPage> {
                                                 bottom: 10),
                                             child: Image.asset(
                                               "assets/misc.png",
-                                              scale: 6.0,
+                                              scale: 5.0,
                                             )),
-                                        Text(_systemName!.toUpperCase())
+                                        Text(
+                                          _systemName!.toUpperCase(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )
                                       ])
                                     ])),
                             Column(
                               children: [
-                                Text(
-                                  "romsLabel".i18n(),
-                                  style: const TextStyle(fontSize: 8.5),
-                                ),
+                                Text("romsLabel".i18n()),
                                 Padding(
                                     padding: const EdgeInsets.only(
                                         bottom: 25, top: 5),
@@ -331,37 +339,69 @@ class _RomsPageState extends State<RomsPage> {
                                         style: const TextStyle(fontSize: 8.5))),
                                 !_isFetching
                                     ? _romsFilter!.isNotEmpty
-                                        ? Card(
-                                            color: _customTheme
-                                                    .isDarkTheme(context)
-                                                ? const Color(0xFF1A1A1A)
-                                                    .withOpacity(0.6)
-                                                : const Color(0xFFF2F2F2)
-                                                    .withOpacity(0.6),
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              padding: const EdgeInsets.all(10),
-                                              itemCount: _itemCount,
-                                              itemBuilder:
-                                                  (BuildContext ctx, index) {
-                                                return Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 5),
-                                                    child: Dismissible(
-                                                      key: UniqueKey(),
-                                                      direction:
-                                                          DismissDirection
-                                                              .endToStart,
-                                                      onDismissed: (_) async {
-                                                        String? nameRom =
-                                                            _romsFilter![index];
-                                                        if (_systemName ==
-                                                            "55,35fZ_gv~*DFBgP6x;") {
+                                        ? ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            padding: const EdgeInsets.all(10),
+                                            itemCount: _itemCount,
+                                            itemBuilder:
+                                                (BuildContext ctx, index) {
+                                              return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 5),
+                                                  child: Dismissible(
+                                                    key: UniqueKey(),
+                                                    direction: DismissDirection
+                                                        .endToStart,
+                                                    onDismissed: (_) async {
+                                                      String? nameRom =
+                                                          _romsFilter![index];
+                                                      if (_systemName ==
+                                                          "55,35fZ_gv~*DFBgP6x;") {
+                                                        setState(() {
+                                                          _currentIndex =
+                                                              _romsList!.indexOf(
+                                                                  _romsFilter![
+                                                                      index]);
+                                                          _romsList!.remove(
+                                                              _romsFilter![
+                                                                  index]);
+                                                          _itemCount--;
+                                                        });
+                                                        _applyFilter(
+                                                            _searchController
+                                                                .text);
+                                                        CustomSnackbar.showSnackBar(
+                                                            _globalScaffoldKey,
+                                                            "movedToBinSnackBar"
+                                                                .i18n(),
+                                                            action:
+                                                                SnackBarAction(
+                                                                    label: "undoButton"
+                                                                        .i18n(),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      setState(
+                                                                          () {
+                                                                        _romsList!.insert(
+                                                                            _currentIndex,
+                                                                            nameRom);
+
+                                                                        _itemCount++;
+                                                                      });
+                                                                      _applyFilter(
+                                                                          _searchController
+                                                                              .text);
+                                                                    }));
+                                                      } else {
+                                                        _isDone = await _requests
+                                                            .moveToBin(
+                                                                _romsFilter![
+                                                                    index],
+                                                                _systemName);
+                                                        if (_isDone == true) {
                                                           setState(() {
                                                             _currentIndex =
                                                                 _romsList!.indexOf(
@@ -370,7 +410,9 @@ class _RomsPageState extends State<RomsPage> {
                                                             _romsList!.remove(
                                                                 _romsFilter![
                                                                     index]);
+
                                                             _itemCount--;
+                                                            _isDone = false;
                                                           });
                                                           _applyFilter(
                                                               _searchController
@@ -385,147 +427,103 @@ class _RomsPageState extends State<RomsPage> {
                                                                           .i18n(),
                                                                       onPressed:
                                                                           () async {
-                                                                        setState(
-                                                                            () {
-                                                                          _romsList!.insert(
-                                                                              _currentIndex,
-                                                                              nameRom);
+                                                                        _isDone = await _requests.undo(
+                                                                            nameRom,
+                                                                            _systemName);
+                                                                        if (_isDone ==
+                                                                            true) {
+                                                                          setState(
+                                                                              () {
+                                                                            _romsList!.insert(_currentIndex,
+                                                                                nameRom);
 
-                                                                          _itemCount++;
-                                                                        });
-                                                                        _applyFilter(
-                                                                            _searchController.text);
+                                                                            _itemCount++;
+                                                                            _isDone =
+                                                                                false;
+                                                                          });
+                                                                          _applyFilter(
+                                                                              _searchController.text);
+                                                                        } else {
+                                                                          _applyFilter(
+                                                                              _searchController.text);
+
+                                                                          CustomSnackbar.showErrorSnackBar(
+                                                                              _globalScaffoldKey);
+                                                                        }
                                                                       }));
                                                         } else {
-                                                          _isDone = await _requests
-                                                              .moveToBin(
-                                                                  _romsFilter![
-                                                                      index],
-                                                                  _systemName);
-                                                          if (_isDone == true) {
-                                                            setState(() {
-                                                              _currentIndex =
-                                                                  _romsList!.indexOf(
-                                                                      _romsFilter![
-                                                                          index]);
-                                                              _romsList!.remove(
-                                                                  _romsFilter![
-                                                                      index]);
-
-                                                              _itemCount--;
-                                                              _isDone = false;
-                                                            });
-                                                            _applyFilter(
-                                                                _searchController
-                                                                    .text);
-                                                            CustomSnackbar.showSnackBar(
-                                                                _globalScaffoldKey,
-                                                                "movedToBinSnackBar"
-                                                                    .i18n(),
-                                                                action:
-                                                                    SnackBarAction(
-                                                                        label: "undoButton"
-                                                                            .i18n(),
-                                                                        onPressed:
-                                                                            () async {
-                                                                          _isDone = await _requests.undo(
-                                                                              nameRom,
-                                                                              _systemName);
-                                                                          if (_isDone ==
-                                                                              true) {
-                                                                            setState(() {
-                                                                              _romsList!.insert(_currentIndex, nameRom);
-
-                                                                              _itemCount++;
-                                                                              _isDone = false;
-                                                                            });
-                                                                            _applyFilter(_searchController.text);
-                                                                          } else {
-                                                                            _applyFilter(_searchController.text);
-
-                                                                            CustomSnackbar.showErrorSnackBar(_globalScaffoldKey);
-                                                                          }
-                                                                        }));
-                                                          } else {
-                                                            _applyFilter(
-                                                                _searchController
-                                                                    .text);
-                                                            CustomSnackbar
-                                                                .showErrorSnackBar(
-                                                                    _globalScaffoldKey);
-                                                          }
+                                                          _applyFilter(
+                                                              _searchController
+                                                                  .text);
+                                                          CustomSnackbar
+                                                              .showErrorSnackBar(
+                                                                  _globalScaffoldKey);
                                                         }
-                                                      },
-                                                      background: Container(
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          3.0)),
-                                                          color: Colors.red,
-                                                          shape: BoxShape
-                                                              .rectangle,
-                                                        ),
-                                                        child: Align(
-                                                          alignment: Alignment
-                                                              .centerRight,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
-                                                            children: <Widget>[
-                                                              const Icon(
-                                                                Icons.delete,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              Text(
-                                                                ' ${"deleteDismissible".i18n()}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .right,
-                                                                style: const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        8.5),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 20,
-                                                              ),
-                                                            ],
-                                                          ),
+                                                      }
+                                                    },
+                                                    background: Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    6.0)),
+                                                        color: Colors.red,
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                      ),
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: <Widget>[
+                                                            const Icon(
+                                                              Icons.delete,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                            Text(
+                                                              ' ${"deleteDismissible".i18n()}',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      12.0),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 20,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
-                                                      child: Material(
-                                                        elevation: 1.0,
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                    .all(
-                                                                Radius.circular(
-                                                                    3.0)),
-                                                        child: ListTile(
-                                                          horizontalTitleGap:
-                                                              10,
-                                                          dense: true,
-                                                          contentPadding:
-                                                              const EdgeInsets
-                                                                  .all(0),
-                                                          leading: Container(
-                                                            height:
-                                                                double.infinity,
+                                                    ),
+                                                    child: Material(
+                                                      elevation: 6.0,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  6.0)),
+                                                      child: IntrinsicHeight(
+                                                          child: Row(
+                                                        children: [
+                                                          Container(
                                                             width: 50,
                                                             decoration:
                                                                 const BoxDecoration(
                                                                     borderRadius: BorderRadius.only(
                                                                         topLeft:
                                                                             Radius.circular(
-                                                                                3.0),
+                                                                                6.0),
                                                                         bottomLeft:
                                                                             Radius.circular(
-                                                                                3.0)),
+                                                                                6.0)),
                                                                     gradient:
                                                                         LinearGradient(
                                                                       begin: Alignment
@@ -576,56 +574,53 @@ class _RomsPageState extends State<RomsPage> {
                                                                           .ellipsis,
                                                                   letterSpacing:
                                                                       1,
-                                                                  fontSize: 6.5,
+                                                                  fontSize:
+                                                                      12.0,
                                                                   color: Colors
-                                                                      .white),
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
                                                             )),
                                                           ),
-                                                          title: Text(
-                                                            _romsFilter![index]
-                                                                    .contains(
-                                                                        ".")
-                                                                ? _romsFilter![index].substring(
-                                                                    0,
-                                                                    _romsFilter![
-                                                                            index]
-                                                                        .lastIndexOf(
-                                                                            "."))
-                                                                : _romsFilter![
-                                                                    index],
-                                                            maxLines: 3,
-                                                            style: const TextStyle(
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                height: 1.5,
-                                                                fontSize: 8.5),
-                                                          ),
-                                                          trailing: Container(
+                                                          Expanded(
+                                                              child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          10.0),
+                                                                  child: Text(
+                                                                    _romsFilter![index].contains(
+                                                                            ".")
+                                                                        ? _romsFilter![index].substring(
+                                                                            0,
+                                                                            _romsFilter![index].lastIndexOf(
+                                                                                "."))
+                                                                        : _romsFilter![
+                                                                            index],
+                                                                    maxLines: 3,
+                                                                    style: const TextStyle(
+                                                                        overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                        height:
+                                                                            1.5,
+                                                                        fontSize:
+                                                                            12.0),
+                                                                  ))),
+                                                          const SizedBox(
                                                               width: 50,
-                                                              height: double
-                                                                  .infinity,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border(
-                                                                      left: BorderSide(
-                                                                          width:
-                                                                              0.1,
-                                                                          color: Theme.of(context)
-                                                                              .textTheme
-                                                                              .bodyMedium!
-                                                                              .color!))),
-                                                              child:
-                                                                  const Center(
-                                                                      child:
-                                                                          Icon(
+                                                              child: Center(
+                                                                  child: Icon(
                                                                 Icons
                                                                     .arrow_back,
                                                               ))),
-                                                        ),
-                                                      ),
-                                                    ));
-                                              },
-                                            ))
+                                                        ],
+                                                      )),
+                                                    ),
+                                                  ));
+                                            },
+                                          )
                                         : Container()
                                     : const Padding(
                                         padding: EdgeInsets.only(top: 25),
