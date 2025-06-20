@@ -1,0 +1,16 @@
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path_android: "launcher_icons/logo_android.png"
+  image_path_ios: "launcher_icons/logo_ios.png"
+  adaptive_icon_background: "launcher_icons/background.png"
+  adaptive_icon_foreground: "launcher_icons/logo_adp.png"
+  web:
+    generate: true
+    image_path: "launcher_icons/logo_android.png"
+  windows:
+    generate: true
+    image_path: "launcher_icons/logo_android.png"
+  macos:
+    generate: true
+    image_path: "launcher_icons/logo_android.png"
